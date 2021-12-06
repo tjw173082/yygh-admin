@@ -30,7 +30,10 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const data = {'token':'admin'}
+    setToken(data.token)// 将token存储在cookie中
+    commit('SET_TOKEN',data.token)
+    /* const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
@@ -40,12 +43,22 @@ const actions = {
       }).catch(error => {
         reject(error)
       })
-    })
+    }) */
   },
 
   // get user info
   getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
+    const data = {
+      'roles':['admin'],
+      'name':'admin',
+      'avatar':'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+    }
+    if(data.roles && data.roles.length > 0){
+      commit('SET_ROLES',data.roles)
+    }
+    commit('SET_NAME', data.name)
+    commit('SET_AVATAR', data.avatar)
+    /* return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
 
@@ -61,7 +74,7 @@ const actions = {
       }).catch(error => {
         reject(error)
       })
-    })
+    }) */
   },
 
   // user logout
