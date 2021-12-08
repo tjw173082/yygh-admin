@@ -41,7 +41,7 @@ module.exports = {
       
     },
     //proxy:'http://localhost:8201',
-    //port: port,
+    port: port,
     open: true,
     overlay: {
       warnings: false,
