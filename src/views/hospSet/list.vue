@@ -28,8 +28,12 @@
         </el-table-column>
         <el-table-column label="操作" width="280" align="center">
            <template slot-scope="scope">
-              <el-button type="danger" size="mini" 
-                 icon="el-icon-delete" @click="removeDataById(scope.row.id)"> </el-button>
+                <el-button type="danger" size="mini" icon="el-icon-delete" @click="removeDataById(scope.row.id)"> </el-button>
+                <el-button type="primary" size="mini" icon="el-icon-lock" v-if="scope.row.status==1" @click="lockHospSet(scope.row.id,0)">锁定</el-button>
+                <el-button type="danger" size="mini" icon="el-icon-unlock" v-if="scope.row.status==0" @click="lockHospSet(scope.row.id,1)">取消锁定</el-button>
+                <router-link :to="'/hospSet/edit/'+scope.row.id">
+                    <el-button type="primary" size="mini" icon="el-icon-edit"></el-button>
+                </router-link>
            </template>
         </el-table-column>
     </el-table>
@@ -115,7 +119,14 @@ export default{
                     this.getList(1)
                 })
             })
+        },
+        lockHospSet(id,status){
+            hospSet.lockHospSet(id,status).then(response=>{
+                //刷新
+                this.getList(this.current)
+            })
         }
+
     }
 }
 </script>
